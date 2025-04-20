@@ -1,0 +1,109 @@
+from flask import Flask, jsonify, request, send_from_directory
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'avatars'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True)
+    email = db.Column(db.String(120), unique=True)
+    name = db.Column(db.String(80))
+    area_code = db.Column(db.String(10))
+    phone_number = db.Column(db.String(20))
+    theme = db.Column(db.String(20))
+    language = db.Column(db.String(20))
+    receive_email = db.Column(db.Boolean)
+    accept_in_app = db.Column(db.Boolean)
+    avatar = db.Column(db.String(120))
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "name": self.name,
+            "contact_phone": f"{self.area_code} - {self.phone_number}",
+            "theme": self.theme,
+            "language": self.language,
+            "receive_email": self.receive_email,
+            "accept_in_app": self.accept_in_app,
+            "avatar": f"/{app.config['UPLOAD_FOLDER']}/{self.avatar}" if self.avatar else None
+        }
+
+@app.route('/user/<username>', methods=['GET', 'PUT'])
+def user_settings(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    if request.method == 'GET':
+        return jsonify(user.to_dict())
+    
+    elif request.method == 'PUT':
+        data = request.json
+        # 更新基本信息
+        if 'email' in data: user.email = data['email']
+        if 'name' in data: user.name = data['name']
+        if 'phone' in data: 
+            area, number = data['phone'].split(' - ')
+            user.area_code = area
+            user.phone_number = number
+        # 更新主题和语言
+        if 'theme' in data: user.theme = data['theme']
+        if 'language' in data: user.language = data['language']
+        # 更新通知设置
+        if 'receive_email' in data: user.receive_email = data['receive_email']
+        if 'accept_in_app' in data: user.accept_in_app = data['accept_in_app']
+        
+        db.session.commit()
+        return jsonify(user.to_dict())
+
+@app.route('/user/<username>/avatar', methods=['POST'])
+def upload_avatar(username):
+    if 'avatar' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files['avatar']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+    
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    filename = f"{username}_avatar{os.path.splitext(file.filename)[1]}"
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    user.avatar = filename
+    db.session.commit()
+    
+    return jsonify({"avatar_url": f"/{app.config['UPLOAD_FOLDER']}/{filename}"})
+
+@app.route('/avatars/<filename>')
+def get_avatar(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+        # 创建示例用户（根据截图数据）
+        if not User.query.filter_by(username="momoChou").first():
+            example_user = User(
+                username="momoChou",
+                email="15857788888@qq.com",
+                name="momo.zxy",
+                area_code="0752",
+                phone_number="88888888",
+                theme="Bright",
+                language="China",
+                receive_email=True,
+                accept_in_app=True,
+                avatar="garfield.png"
+            )
+            db.session.add(example_user)
+            db.session.commit()
+    app.run(debug=True)
