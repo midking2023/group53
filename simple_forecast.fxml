@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.finance.manager.controller.SimpleForecastController"
+      prefHeight="600.0" prefWidth="800.0"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <HBox alignment="CENTER">
+        <Label text="Simple Expense Forecast" styleClass="page-title">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Forecast Settings -->
+    <HBox spacing="20" alignment="CENTER">
+        <Label text="Start Date:"/>
+        <DatePicker fx:id="startDatePicker"/>
+        
+        <Label text="End Date:"/>
+        <DatePicker fx:id="endDatePicker"/>
+        
+        <Label text="Category:"/>
+        <ComboBox fx:id="categoryComboBox" prefWidth="120"/>
+        
+        <Button fx:id="generateButton" text="Generate Forecast" onAction="#handleGenerateForecast" 
+                styleClass="primary-button"/>
+    </HBox>
+    
+    <!-- Status Display -->
+    <HBox alignment="CENTER">
+        <Label fx:id="statusLabel" text="Ready to generate forecast" styleClass="status-label"/>
+    </HBox>
+
+    <!-- Chart Area -->
+    <TabPane fx:id="chartTabPane" VBox.vgrow="ALWAYS">
+        <Tab text="Forecast Chart" closable="false">
+            <LineChart fx:id="forecastChart">
+                <xAxis>
+                    <CategoryAxis label="Date"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Amount ($)"/>
+                </yAxis>
+            </LineChart>
+        </Tab>
+        <Tab text="Forecast Summary" closable="false">
+            <TableView fx:id="forecastTable">
+                <columns>
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                    <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
+                    <TableColumn fx:id="amountColumn" text="Amount" prefWidth="120"/>
+                    <TableColumn fx:id="notesColumn" text="Notes" prefWidth="220"/>  
+                </columns>
+            </TableView>
+        </Tab>
+    </TabPane>
+
+    <!-- Navigation Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="prevButton" text="Previous: Auto Import" onAction="#handlePrevPage"/>
+        <Button fx:id="nextButton" text="Next: Settings" onAction="#handleNextPage"/>
+    </HBox>
+</VBox> 
