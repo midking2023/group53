@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.finance.manager.controller.AutoImportController"
+      prefHeight="600.0" prefWidth="800.0"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <HBox alignment="CENTER">
+        <Label text="Auto Import Transactions" styleClass="page-title">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Drop Area -->
+    <VBox fx:id="dropArea" alignment="CENTER" spacing="15" styleClass="drop-area" 
+          prefHeight="150.0" VBox.vgrow="NEVER">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <Label text="Drag files here or select files" styleClass="subtitle"/>
+        <Button fx:id="selectFileButton" text="Select File" onAction="#handleSelectFile"/>
+    </VBox>
+
+    <!-- Progress Area -->
+    <HBox fx:id="progressArea" alignment="CENTER" spacing="10">
+        <ProgressBar fx:id="progressBar" prefWidth="400.0" progress="0.0"/>
+        <Text fx:id="statusText" styleClass="status-text"/>
+    </HBox>
+
+    <!-- Imported Data Table -->
+    <TableView fx:id="importedDataTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+            <TableColumn fx:id="typeColumn" text="Type" prefWidth="80"/>
+            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100"/>
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
+            <TableColumn fx:id="notesColumn" text="Notes" prefWidth="300"/>
+        </columns>
+    </TableView>
+
+    <!-- Button Area -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="clearButton" text="Clear" onAction="#handleClear"/>
+        <Button fx:id="importButton" text="Import" onAction="#handleImport" 
+                styleClass="primary-button"/>
+    </HBox>
+
+    <!-- Navigation Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="prevButton" text="Previous: Manual Entry" onAction="#handlePrevPage"/>
+        <Button fx:id="nextButton" text="Next: Expense Forecast" onAction="#handleNextPage"/>
+    </HBox>
+</VBox> 
