@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.finance.manager.controller.ManualEntryController"
+            stylesheets="@../css/style.css">
+    <center>
+        <HBox spacing="20">
+            <!-- Left Form -->
+            <VBox styleClass="card" spacing="15" prefWidth="400" prefHeight="500" maxHeight="500">
+                <padding>
+                    <Insets top="20" right="30" bottom="20" left="30"/>
+                </padding>
+                
+                <Label styleClass="card-title" text="Manual Transaction Entry" />
+                
+                <!-- Form Content -->
+                <VBox styleClass="form-container" spacing="15">
+                    <!-- Transaction Date -->
+                    <VBox spacing="5">
+                        <Label styleClass="form-label" text="Transaction Date" />
+                        <DatePicker fx:id="datePicker" styleClass="form-field" promptText="Select date" prefWidth="Infinity" />
+                    </VBox>
+                    
+                    <!-- Transaction Type -->
+                    <VBox spacing="5">
+                        <Label styleClass="form-label" text="Transaction Type" />
+                        <ComboBox fx:id="typeComboBox" styleClass="form-field" promptText="Select transaction type" prefWidth="Infinity" />
+                    </VBox>
+                    
+                    <!-- Transaction Amount -->
+                    <VBox spacing="5">
+                        <Label styleClass="form-label" text="Transaction Amount" />
+                        <TextField fx:id="amountField" styleClass="form-field" promptText="Enter amount" />
+                    </VBox>
+                    
+                    <!-- Payment Method -->
+                    <VBox spacing="5">
+                        <Label styleClass="form-label" text="Payment Method" />
+                        <ComboBox fx:id="paymentMethodComboBox" styleClass="form-field" promptText="Select payment method" prefWidth="Infinity" />
+                    </VBox>
+                    
+                    <!-- Transaction Notes -->
+                    <VBox spacing="5">
+                        <Label styleClass="form-label" text="Transaction Notes" />
+                        <TextArea fx:id="notesArea" styleClass="form-field" promptText="Add notes" prefRowCount="3" />
+                    </VBox>
+                    
+                    <!-- Error Display -->
+                    <Text fx:id="errorText" fill="RED" visible="false" managed="false" />
+                    <Text fx:id="successText" fill="GREEN" visible="false" managed="false" />
+                    
+                    <!-- Action Buttons -->
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button fx:id="clearButton" styleClass="cancel-button" text="Clear" onAction="#handleClear" />
+                        <Button fx:id="saveButton" styleClass="form-button" text="Save" onAction="#handleSave" />
+                    </HBox>
+                </VBox>
+            </VBox>
+            
+            <!-- Right Transaction List -->
+            <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <Label styleClass="card-title" text="Entered Transactions" />
+                
+                <!-- Filter and Sort -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Filter:" />
+                    <ComboBox fx:id="filterComboBox" promptText="All Types" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh" />
+                </HBox>
+                
+                <!-- Transaction Table -->
+                <TableView fx:id="transactionsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="100" />
+                        <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
+                        <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100" />
+                        <TableColumn fx:id="paymentMethodColumn" text="Payment Method" prefWidth="100" />
+                        <TableColumn fx:id="notesColumn" text="Notes" prefWidth="200" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+    </center>
+    
+    <!-- Bottom Navigation Buttons -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button fx:id="prevButton" text="Previous: Expense Categories" onAction="#handlePrevPage" styleClass="navigation-button" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="nextButton" text="Next: Auto Import" onAction="#handleNextPage" styleClass="navigation-button" />
+        </HBox>
+    </bottom>
+</BorderPane> 
