@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.finance.manager.controller.SettingsController"
+      prefHeight="600.0" prefWidth="800.0"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <HBox alignment="CENTER">
+        <Label text="Personal Settings" styleClass="page-title">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Settings Tabs -->
+    <TabPane fx:id="settingsTabPane" VBox.vgrow="ALWAYS">
+        <!-- Profile Tab -->
+        <Tab text="Profile" closable="false">
+            <GridPane hgap="20" vgap="15" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <!-- Avatar -->
+                <VBox alignment="CENTER" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                      GridPane.rowSpan="4">
+                    <ImageView fx:id="avatarImageView" fitHeight="150" fitWidth="150" preserveRatio="true">
+                        <Image url="@../images/default_avatar.png"/>
+                    </ImageView>
+                    <Button fx:id="uploadButton" text="Upload Avatar" onAction="#handleUploadAvatar"/>
+                </VBox>
+                
+                <!-- User Information Form -->
+                <Label text="Username:" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <TextField fx:id="usernameField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                
+                <Label text="Nickname:" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="nicknameField" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                
+                <Label text="Email:" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="emailField" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                
+                <Label text="Phone:" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <TextField fx:id="phoneField" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                
+                <Label text="Change Password:" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <Button fx:id="changePasswordButton" text="Change Password" onAction="#handleChangePassword" 
+                        GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="30"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+            </GridPane>
+        </Tab>
+        
+        <!-- Preferences Tab -->
+        <Tab text="Preferences" closable="false">
+            <GridPane hgap="20" vgap="15" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <Label text="Language:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="languageComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <!-- Content set by controller -->
+                </ComboBox>
+                
+                <Label text="Currency:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <ComboBox fx:id="currencyComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <!-- Content set by controller -->
+                </ComboBox>
+                
+                <Label text="Region:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="regionComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <!-- Content set by controller -->
+                </ComboBox>
+                
+                <Label text="Notifications:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <CheckBox fx:id="notificationCheckBox" text="Enable Notifications" GridPane.columnIndex="1" 
+                          GridPane.rowIndex="3"/>
+                
+                <Label text="Common Payment Methods:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <CheckBox fx:id="alipayCheckBox" text="Alipay"/>
+                    <CheckBox fx:id="wechatCheckBox" text="WeChat Pay"/>
+                    <CheckBox fx:id="bankCheckBox" text="Bank Card"/>
+                    <CheckBox fx:id="creditCheckBox" text="Credit Card"/>
+                    <CheckBox fx:id="cashCheckBox" text="Cash"/>
+                </VBox>
+                
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="30"/>
+                    <ColumnConstraints percentWidth="70"/>
+                </columnConstraints>
+            </GridPane>
+        </Tab>
+        
+        <!-- Data Management Tab -->
+        <Tab text="Data Management" closable="false">
+            <VBox spacing="20" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <HBox spacing="20" alignment="CENTER">
+                    <Button fx:id="exportDataButton" text="Export Data" onAction="#handleExportData"/>
+                    <Button fx:id="importDataButton" text="Import Data" onAction="#handleImportData"/>
+                </HBox>
+                
+                <Separator/>
+                
+                <VBox spacing="10" alignment="CENTER">
+                    <Label text="Clear Data" styleClass="warning-text"/>
+                    <Button fx:id="clearDataButton" text="Clear All Transactions" 
+                            onAction="#handleClearData" styleClass="warning-button"/>
+                </VBox>
+                
+                <Separator/>
+                
+                <VBox spacing="10" alignment="CENTER">
+                    <Label text="Account Management" styleClass="warning-text"/>
+                    <Button fx:id="deleteAccountButton" text="Delete Account" 
+                            onAction="#handleDeleteAccount" styleClass="danger-button"/>
+                </VBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+
+    <!-- Bottom Buttons -->
+    <HBox spacing="20" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
+        <Button fx:id="saveButton" text="Save Settings" onAction="#handleSave" styleClass="primary-button"/>
+    </HBox>
+</VBox> 
