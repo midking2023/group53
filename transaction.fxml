@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.finance.manager.controller.TransactionController"
+      prefHeight="600.0" prefWidth="800.0"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <HBox alignment="CENTER">
+        <Label text="Transaction Management" styleClass="page-title">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Main Content Area -->
+    <TabPane VBox.vgrow="ALWAYS">
+        <!-- Manual Entry Tab -->
+        <Tab text="Manual Entry" closable="false">
+            <BorderPane>
+                <center>
+                    <HBox spacing="20">
+                        <!-- Left Form -->
+                        <VBox styleClass="card" spacing="15" prefWidth="400" prefHeight="500" maxHeight="500">
+                            <padding>
+                                <Insets top="20" right="30" bottom="20" left="30"/>
+                            </padding>
+                            
+                            <Label styleClass="card-title" text="Enter Transaction" />
+                            
+                            <!-- Form Content -->
+                            <VBox styleClass="form-container" spacing="15">
+                                <!-- Transaction Date -->
+                                <VBox spacing="5">
+                                    <Label styleClass="form-label" text="Date" />
+                                    <DatePicker fx:id="datePicker" styleClass="form-field" promptText="Select date" prefWidth="Infinity" />
+                                </VBox>
+                                
+                                <!-- Transaction Type -->
+                                <VBox spacing="5">
+                                    <Label styleClass="form-label" text="Type" />
+                                    <ComboBox fx:id="typeComboBox" styleClass="form-field" promptText="Select transaction type" prefWidth="Infinity" />
+                                </VBox>
+                                
+                                <!-- Transaction Amount -->
+                                <VBox spacing="5">
+                                    <Label styleClass="form-label" text="Amount" />
+                                    <TextField fx:id="amountField" styleClass="form-field" promptText="Enter amount" />
+                                </VBox>
+                                
+                                <!-- Payment Method -->
+                                <VBox spacing="5">
+                                    <Label styleClass="form-label" text="Payment Method" />
+                                    <ComboBox fx:id="paymentMethodComboBox" styleClass="form-field" promptText="Select payment method" prefWidth="Infinity" />
+                                </VBox>
+                                
+                                <!-- Transaction Notes -->
+                                <VBox spacing="5">
+                                    <Label styleClass="form-label" text="Notes" />
+                                    <TextArea fx:id="notesArea" styleClass="form-field" promptText="Add notes" prefRowCount="3" />
+                                </VBox>
+                                
+                                <!-- Error Message Display -->
+                                <Text fx:id="errorText" fill="RED" visible="false" managed="false" />
+                                <Text fx:id="successText" fill="GREEN" visible="false" managed="false" />
+                                
+                                <!-- Action Buttons -->
+                                <HBox spacing="10" alignment="CENTER_RIGHT">
+                                    <Button fx:id="clearButton" styleClass="cancel-button" text="Clear" onAction="#handleClear" />
+                                    <Button fx:id="saveButton" styleClass="form-button" text="Save" onAction="#handleSave" />
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                        
+                        <!-- Right Transaction List -->
+                        <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            
+                            <Label styleClass="card-title" text="Transaction Records" />
+                            
+                            <!-- Filter and Sort -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Filter:" />
+                                <ComboBox fx:id="filterComboBox" promptText="All Types" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh" />
+                            </HBox>
+                            
+                            <!-- Transaction Table -->
+                            <TableView fx:id="transactionsTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="100" />
+                                    <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
+                                    <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100" />
+                                    <TableColumn fx:id="paymentMethodColumn" text="Payment Method" prefWidth="100" />
+                                    <TableColumn fx:id="notesColumn" text="Notes" prefWidth="200" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </HBox>
+                </center>
+            </BorderPane>
+        </Tab>
+        
+        <!-- Expense Categories Tab -->
+        <Tab text="Categories" closable="false">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <Label text="Category Management" styleClass="section-title"/>
+                
+                <HBox spacing="20">
+                    <!-- Left Category List -->
+                    <VBox spacing="10" prefWidth="300">
+                        <Label text="Existing Categories"/>
+                        <ListView fx:id="categoryListView" VBox.vgrow="ALWAYS"/>
+                        <HBox spacing="10">
+                            <Button fx:id="editCategoryButton" text="Edit" onAction="#handleEditCategory"/>
+                            <Button fx:id="deleteCategoryButton" text="Delete" onAction="#handleDeleteCategory"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Right Add/Edit Form -->
+                    <VBox spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Add/Edit Category"/>
+                        
+                        <GridPane hgap="10" vgap="10">
+                            <Label text="Category Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <TextField fx:id="categoryNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            
+                            <Label text="Icon:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <ComboBox fx:id="iconComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                            
+                            <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <TextArea fx:id="categoryDescField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefRowCount="3"/>
+                            
+                            <Button fx:id="saveCategoryButton" text="Save Category" onAction="#handleSaveCategory"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        </GridPane>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </Tab>
+        
+        <!-- Manual Classification Tab -->
+        <Tab text="Classification" closable="false">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <Label text="Transaction Classification" styleClass="section-title"/>
+                
+                <!-- Unclassified Transactions Table -->
+                <Label text="Unclassified Transactions"/>
+                <TableView fx:id="unclassifiedTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="ucDateColumn" text="Date" prefWidth="100"/>
+                        <TableColumn fx:id="ucDescriptionColumn" text="Description" prefWidth="200"/>
+                        <TableColumn fx:id="ucAmountColumn" text="Amount" prefWidth="100"/>
+                        <TableColumn fx:id="ucPaymentColumn" text="Payment Method" prefWidth="100"/>
+                    </columns>
+                </TableView>
+                
+                <!-- Classification Action Area -->
+                <HBox spacing="15" alignment="CENTER">
+                    <Label text="Select Category:"/>
+                    <ComboBox fx:id="classifyCategoryComboBox" prefWidth="150"/>
+                    <Button fx:id="classifyButton" text="Apply Category" onAction="#handleClassify"/>
+                    <Button fx:id="autoClassifyButton" text="Auto Classify" onAction="#handleAutoClassify"/>
+                </HBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox> 
