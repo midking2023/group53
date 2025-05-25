@@ -20,7 +20,7 @@ import java.util.List;
  * 文件导入工具类
  * 用于处理CSV等格式的交易数据导入
  */
-public class FileImportUtil {
+public class FileImportUtils {
     // 默认日期格式
     private static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // 备用日期格式
