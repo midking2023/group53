@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.finance.manager.controller.HomeController"
+            fitToWidth="true" fitToHeight="true"
+            stylesheets="@../css/style.css">
+    <content>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Navigation Button -->
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button fx:id="nextButton" text="Next: Expense Analysis" onAction="#handleNextPage"/>
+                <padding>
+                    <Insets bottom="10"/>
+                </padding>
+            </HBox>
+            
+            <!-- Notification Area -->
+            <VBox fx:id="notificationArea" spacing="10"/>
+            
+            <!-- Statistics Cards -->
+            <HBox spacing="20">
+                <!-- Total Expense Card -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="card-title" text="Total Expenses"/>
+                    <Label fx:id="totalExpenseLabel" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="0.00"/>
+                </VBox>
+                
+                <!-- Transaction Count Card -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="card-title" text="Transaction Count"/>
+                    <Label fx:id="transactionCountLabel" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="0"/>
+                </VBox>
+                
+                <!-- Average Expense Card -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="card-title" text="Average Expense"/>
+                    <Label fx:id="avgExpenseLabel" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="0.00"/>
+                </VBox>
+            </HBox>
+            
+            <!-- Chart Area -->
+            <HBox spacing="20">
+                <!-- Category Pie Chart -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="card-title" text="Expense Category Distribution"/>
+                    <PieChart fx:id="categoryPieChart" legendVisible="true" labelsVisible="true" 
+                              prefHeight="300" maxHeight="300" VBox.vgrow="ALWAYS"/>
+                </VBox>
+                
+                <!-- Expense Trend Chart -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="card-title" text="Expense Trends"/>
+                    <LineChart fx:id="expenseTrendChart" legendVisible="true"
+                               prefHeight="300" maxHeight="300" VBox.vgrow="ALWAYS">
+                        <xAxis>
+                            <CategoryAxis label="Month"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Amount"/>
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+            </HBox>
+            
+            <!-- Monthly Expense Chart -->
+            <VBox styleClass="card">
+                <Label styleClass="card-title" text="Monthly Expenses"/>
+                <BarChart fx:id="expenseBarChart" legendVisible="true"
+                          prefHeight="250" maxHeight="250">
+                    <xAxis>
+                        <CategoryAxis label="Month"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Amount"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+            
+            <!-- Recent Transactions -->
+            <VBox styleClass="card">
+                <Label styleClass="card-title" text="Recent Transactions"/>
+                <TableView fx:id="recentTransactionsTable" prefHeight="300" maxHeight="300">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+                        <TableColumn fx:id="typeColumn" text="Type" prefWidth="150"/>
+                        <TableColumn fx:id="amountColumn" text="Amount" prefWidth="100"/>
+                        <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane> 
