@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.finance.manager.controller.ForecastController"
+      prefHeight="600.0" prefWidth="800.0"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <HBox alignment="CENTER">
+        <Label text="Expense Forecast Analysis" styleClass="page-title">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Forecast Settings -->
+    <HBox spacing="20" alignment="CENTER">
+        <Label text="Start Date:"/>
+        <DatePicker fx:id="startDatePicker"/>
+        
+        <Label text="End Date:"/>
+        <DatePicker fx:id="endDatePicker"/>
+        
+        <Label text="Forecast Period:"/>
+        <ComboBox fx:id="periodComboBox" prefWidth="120">
+            <!-- Content set by controller -->
+        </ComboBox>
+        
+        <Label text="Forecast Category:"/>
+        <ComboBox fx:id="categoryComboBox" prefWidth="120">
+            <!-- Content set by controller -->
+        </ComboBox>
+        
+        <Button fx:id="generateButton" text="Generate Forecast" onAction="#handleGenerateForecast" 
+                styleClass="primary-button"/>
+    </HBox>
+
+    <!-- Confidence Display -->
+    <HBox alignment="CENTER">
+        <Label fx:id="confidenceLabel" text="Forecast Confidence: N/A" styleClass="confidence-label"/>
+    </HBox>
+
+    <!-- Chart Area -->
+    <TabPane fx:id="chartTabPane" VBox.vgrow="ALWAYS">
+        <Tab text="Forecast Trend" closable="false">
+            <LineChart fx:id="trendChart">
+                <xAxis>
+                    <CategoryAxis label="Date"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Amount ($)"/>
+                </yAxis>
+            </LineChart>
+        </Tab>
+        <Tab text="Category Forecast" closable="false">
+            <PieChart fx:id="categoryPieChart"/>
+        </Tab>
+        <Tab text="Forecast Details" closable="false">
+            <TableView fx:id="forecastTable">
+                <columns>  
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+                    <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
+                    <TableColumn fx:id="amountColumn" text="Forecast Amount" prefWidth="100"/>
+                    <TableColumn fx:id="confidenceColumn" text="Confidence" prefWidth="100"/>
+                    <TableColumn fx:id="notesColumn" text="Notes" prefWidth="300"/>
+                </columns>
+            </TableView>
+        </Tab>
+    </TabPane>
+
+    <!-- Forecast Summary -->
+    <HBox spacing="20" alignment="CENTER">
+        <VBox alignment="CENTER" styleClass="summary-box">
+            <Label text="Estimated Total Expenses" styleClass="summary-title"/>
+            <Text fx:id="totalExpenseText" text="$0.00" styleClass="summary-value"/>
+        </VBox>
+        
+        <VBox alignment="CENTER" styleClass="summary-box">
+            <Label text="Highest Expense Category" styleClass="summary-title"/>
+            <Text fx:id="topCategoryText" text="No Data" styleClass="summary-value"/>
+        </VBox>
+        
+        <VBox alignment="CENTER" styleClass="summary-box">
+            <Label text="Peak Expense Day" styleClass="summary-title"/>
+            <Text fx:id="peakDayText" text="No Data" styleClass="summary-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Navigation Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="prevButton" text="Previous: Auto Import" onAction="#handlePrevPage"/>
+        <Button fx:id="nextButton" text="Finish" onAction="#handleNextPage"/>
+    </HBox>
+</VBox> 
